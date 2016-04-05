@@ -7,13 +7,15 @@ import hus.HusMove;
 import student_player.StudentPlayer;
 
 public class AlphaBeta {
+    public static final int DEPTH = 8;
     public static int alphabetaDecision(HusBoardState board_state, StudentPlayer myPlayer) {
         ArrayList<HusMove> moves = board_state.getLegalMoves();
         int[] values = new int[moves.size()];
         for (HusMove move : moves) {
             HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
             cloned_board_state.move(move);
-            values[moves.indexOf(move)] = alphabetaValue(Integer.MIN_VALUE, Integer.MAX_VALUE, 4,
+            values[moves.indexOf(move)] = alphabetaValue(Integer.MIN_VALUE, Integer.MAX_VALUE,
+                    DEPTH,
                     cloned_board_state, myPlayer);
         }
         return findIndexOfMaxValue(values);
