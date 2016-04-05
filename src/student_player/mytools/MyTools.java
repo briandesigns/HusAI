@@ -102,7 +102,7 @@ public class MyTools {
     }
 
     /**
-     * My evaluation function based on
+     * My evaluation function based on number of pits with seed count above 1
      * @param board_state
      * @param myPlayer
      * @return
