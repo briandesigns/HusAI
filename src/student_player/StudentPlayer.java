@@ -40,13 +40,5 @@ public class StudentPlayer extends HusPlayer {
     public HusMove chooseMove(HusBoardState board_state) {
         ArrayList<HusMove> moves = board_state.getLegalMoves();
         return moves.get(MyTools.minimaxDecision(board_state, this));
-//        HusMove move = moves.get(0);
-//
-//        // We can see the effects of a move like this...
-//        HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
-//        cloned_board_state.move(move);
-//
-//        // But since this is a placeholder algorithm, we won't act on that information.
-//        return move;
     }
 }

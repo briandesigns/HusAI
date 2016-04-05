@@ -2,10 +2,8 @@ package student_player.mytools;
 
 import java.util.ArrayList;
 
-import hus.HusBoard;
 import hus.HusBoardState;
 import hus.HusMove;
-import hus.HusPlayer;
 import student_player.StudentPlayer;
 public class MyTools {
     public static final int UTILITY_WIN = 3;
