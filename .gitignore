@@ -1,0 +1,6 @@
+.idea/workspace.xml
+.settings/*
+bin/*
+eclipse/*
+.classpath
+.project
