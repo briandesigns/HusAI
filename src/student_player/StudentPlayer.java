@@ -6,7 +6,8 @@ import hus.HusMove;
 
 import java.util.ArrayList;
 
-import student_player.mytools.MyTools;
+import student_player.mytools.AlphaBeta;
+import student_player.mytools.NaiveMiniMax;
 
 /**
  * A Hus player submitted by a student.
@@ -39,6 +40,8 @@ public class StudentPlayer extends HusPlayer {
      */
     public HusMove chooseMove(HusBoardState board_state) {
         ArrayList<HusMove> moves = board_state.getLegalMoves();
-        return moves.get(MyTools.minimaxDecision(board_state, this));
+//        return moves.get(NaiveMiniMax.minimaxDecision(board_state, this));
+        return moves.get(AlphaBeta.alphabetaDecision(board_state, this));
+
     }
 }
