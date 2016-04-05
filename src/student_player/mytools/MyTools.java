@@ -18,7 +18,7 @@ public class MyTools {
         for (HusMove move : moves) {
             HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
             cloned_board_state.move(move);
-            values[moves.indexOf(move)] = minimaxValue(5,cloned_board_state, myPlayer);
+            values[moves.indexOf(move)] = minimaxValue(4,cloned_board_state, myPlayer);
         }
         return findIndexOfMaxValue(values);
     }
@@ -42,41 +42,46 @@ public class MyTools {
      * @return
      */
     private static int minimaxValue(int depth, HusBoardState board_state, StudentPlayer myPlayer) {
-        if (board_state.gameOver()) {
-            int winner = board_state.getWinner();
-            if (winner == myPlayer.getPlayerID()) {
-                return UTILITY_WIN;
-            } else if (winner == myPlayer.getOpponentID()) {
-                return UTILITY_LOSS;
-            } else if (winner == HusBoardState.DRAW) {
-                return UTILITY_DRAW;
-            } else if (winner == HusBoardState.CANCELLED0) {
-                if (myPlayer.getPlayerID() == 0) {
-                    return UTILITY_LOSS;
-                } else {
-                    return UTILITY_WIN;
-                }
-            } else if (winner == HusBoardState.CANCELLED1) {
-                if (myPlayer.getPlayerID() == 1) {
-                    return UTILITY_LOSS;
-                } else {
-                    return UTILITY_WIN;
-                }
-            }
+//        if (board_state.gameOver()) {
+//            int winner = board_state.getWinner();
+//            if (winner == myPlayer.getPlayerID()) {
+//                return UTILITY_WIN;
+//            } else if (winner == myPlayer.getOpponentID()) {
+//                return UTILITY_LOSS;
+//            } else if (winner == HusBoardState.DRAW) {
+//                return UTILITY_DRAW;
+//            } else if (winner == HusBoardState.CANCELLED0) {
+//                if (myPlayer.getPlayerID() == 0) {
+//                    return UTILITY_LOSS;
+//                } else {
+//                    return UTILITY_WIN;
+//                }
+//            } else if (winner == HusBoardState.CANCELLED1) {
+//                if (myPlayer.getPlayerID() == 1) {
+//                    return UTILITY_LOSS;
+//                } else {
+//                    return UTILITY_WIN;
+//                }
+//            }
+//        }
+//        if (depth == 0) {
+//            return evaluateState(board_state,myPlayer);
+//        }
+
+        if(board_state.gameOver() || depth == 0) {
+            return evaluateState(board_state, myPlayer);
         }
-        if (depth == 0) {
-            return 2;
-        }
+
         ArrayList<HusBoardState> successors = getSuccessors(board_state);
         if (board_state.getTurnPlayer() == myPlayer.getPlayerID()) {
-            int backValue = -1;
+            int backValue = Integer.MIN_VALUE;
             for( HusBoardState successor : successors) {
                 int value = minimaxValue(depth-1,successor, myPlayer);
                 backValue = Math.max(value, backValue);
             }
             return backValue;
         } else {
-            int backValue = -1;
+            int backValue = Integer.MAX_VALUE;
             for( HusBoardState successor : successors) {
                 int value = minimaxValue(depth-1,successor, myPlayer);
                 backValue = Math.min(value, backValue);
@@ -106,12 +111,23 @@ public class MyTools {
         int[][] pits = board_state.getPits();
         int[] my_pits = pits[myPlayer.getPlayerID()];
         int[] op_pits = pits[myPlayer.getOpponentID()];
-        if(board_state.getTurnPlayer() == myPlayer.getPlayerID()) {
-
-        } else {
-
+        int value = 0;
+        for (int i = 0; i < my_pits.length; i++) {
+            if (my_pits[i] > 1) {
+                value += my_pits[i]*2;
+            }
         }
+        for (int i = 0; i < op_pits.length; i++) {
+            if (op_pits[i] > 1) {
+                value -= op_pits[i]*3;
+            }
+        }
+        return value;
+//        if (board_state.getTurnPlayer() == myPlayer.getPlayerID()) {
+//
+//        } else {
+//
+//        }
 
-        return 0;
     }
 }
