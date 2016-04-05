@@ -119,7 +119,7 @@ public class MyTools {
         }
         for (int i = 0; i < op_pits.length; i++) {
             if (op_pits[i] > 1) {
-                value -= op_pits[i]*3;
+                value -= op_pits[i]*2;
             }
         }
         return value;
