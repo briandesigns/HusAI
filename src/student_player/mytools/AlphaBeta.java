@@ -62,6 +62,9 @@ public class AlphaBeta {
             for (HusBoardState successor : successors) {
                 backValue = Math.min(backValue,alphabetaValue(a,b,depth - 1, successor, myPlayer));
                 b = Math.min(b, backValue);
+                if (a >= b) {
+                    break;
+                }
             }
             return backValue;
         }
