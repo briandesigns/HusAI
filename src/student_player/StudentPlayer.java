@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import student_player.mytools.AlphaBeta;
-import student_player.mytools.NaiveMiniMax;
 import student_player.mytools.TimedTask;
 
 /**
@@ -51,7 +50,7 @@ public class StudentPlayer extends HusPlayer {
         try {
             TimedTask tt = new TimedTask(board_state, this);
             final Future<Object> f = service.submit(tt.alphaBetaCalc);
-            return moves.get((Integer)f.get(1990, TimeUnit.MILLISECONDS));
+            return moves.get((Integer)f.get(1980, TimeUnit.MILLISECONDS));
         } catch (final TimeoutException e) {
             int[] values = new int[moves.size()];
             for (HusMove move : moves) {

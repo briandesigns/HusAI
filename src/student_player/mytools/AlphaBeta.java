@@ -7,7 +7,7 @@ import hus.HusMove;
 import student_player.StudentPlayer;
 
 public class AlphaBeta {
-    public static final int DEPTH = 6;
+    public static final int DEPTH = 5;
     public static int alphabetaDecision(HusBoardState board_state, StudentPlayer myPlayer) {
 
         ArrayList<HusMove> moves = board_state.getLegalMoves();
