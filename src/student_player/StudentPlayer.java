@@ -5,9 +5,15 @@ import hus.HusPlayer;
 import hus.HusMove;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import student_player.mytools.AlphaBeta;
 import student_player.mytools.NaiveMiniMax;
+import student_player.mytools.TimedTask;
 
 /**
  * A Hus player submitted by a student.
@@ -39,9 +45,34 @@ public class StudentPlayer extends HusPlayer {
      * for another example agent.
      */
     public HusMove chooseMove(HusBoardState board_state) {
+        HusMove backupMove;
         ArrayList<HusMove> moves = board_state.getLegalMoves();
-//        return moves.get(NaiveMiniMax.minimaxDecision(board_state, this));
-        return moves.get(AlphaBeta.alphabetaDecision(board_state, this));
+        int[] values = new int[moves.size()];
+        for (HusMove move : moves) {
+            HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
+            cloned_board_state.move(move);
+            values[moves.indexOf(move)] = AlphaBeta.evaluateState(cloned_board_state, this);
+        }
+        backupMove = moves.get(AlphaBeta.findIndexOfMaxValue(values));
+
+
+
+        final ExecutorService service = Executors.newSingleThreadExecutor();
+
+        try {
+            TimedTask tt = new TimedTask(board_state, this);
+            final Future<Object> f = service.submit(tt.alphaBetaCalc);
+            return moves.get((Integer)f.get(1990, TimeUnit.MILLISECONDS));
+        } catch (final TimeoutException e) {
+            return backupMove;
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            service.shutdown();
+        }
+
+
+//        return moves.get(AlphaBeta.alphabetaDecision(board_state, this));
 
     }
 }

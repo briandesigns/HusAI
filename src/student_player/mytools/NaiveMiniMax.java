@@ -4,15 +4,16 @@ import java.util.ArrayList;
 
 import hus.HusBoardState;
 import hus.HusMove;
+import hus.MiniMaxPlayer;
 import student_player.StudentPlayer;
 public class NaiveMiniMax {
-    public static int minimaxDecision(HusBoardState board_state, StudentPlayer myPlayer) {
+    public static int minimaxDecision(HusBoardState board_state, MiniMaxPlayer myPlayer) {
         ArrayList<HusMove> moves = board_state.getLegalMoves();
         int[] values = new int[moves.size()];
         for (HusMove move : moves) {
             HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
             cloned_board_state.move(move);
-            values[moves.indexOf(move)] = minimaxValue(4,cloned_board_state, myPlayer);
+            values[moves.indexOf(move)] = minimaxValue(3,cloned_board_state, myPlayer);
         }
         return findIndexOfMaxValue(values);
     }
@@ -35,7 +36,7 @@ public class NaiveMiniMax {
      * @param myPlayer
      * @return
      */
-    private static int minimaxValue(int depth, HusBoardState board_state, StudentPlayer myPlayer) {
+    private static int minimaxValue(int depth, HusBoardState board_state, MiniMaxPlayer myPlayer) {
         if(board_state.gameOver() || depth == 0) {
             return evaluateState(board_state, myPlayer);
         }
@@ -75,7 +76,7 @@ public class NaiveMiniMax {
      * @param myPlayer
      * @return
      */
-    public static int evaluateState(HusBoardState board_state, StudentPlayer myPlayer) {
+    public static int evaluateState(HusBoardState board_state, MiniMaxPlayer myPlayer) {
         int[][] pits = board_state.getPits();
         int[] my_pits = pits[myPlayer.getPlayerID()];
         int[] op_pits = pits[myPlayer.getOpponentID()];
