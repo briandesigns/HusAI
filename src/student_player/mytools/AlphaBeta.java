@@ -110,7 +110,9 @@ public class AlphaBeta {
     }
 
     /**
-     * Evaluation function based on the difference in seed count between the 2 players
+     * Evaluation function based on the difference in seed count of pits more than 1 seed between
+     * the 2 players
+     * players
      * @param board_state
      * @param myPlayer
      * @return evaluation function value

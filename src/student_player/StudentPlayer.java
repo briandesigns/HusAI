@@ -20,6 +20,8 @@ import student_player.mytools.TimedTask;
  */
 public class StudentPlayer extends HusPlayer {
 
+    public static final int TIME_LIMIT = 1980;
+
     /**
      * You must modify this constructor to return your student number.
      * This is important, because this is what the code that runs the
@@ -31,6 +33,7 @@ public class StudentPlayer extends HusPlayer {
     }
 
     /**
+     * used to find out whos turn it is
      * @return either 1 or 0 depending on the game
      */
     public int getPlayerID() {
@@ -38,6 +41,7 @@ public class StudentPlayer extends HusPlayer {
     }
 
     /**
+     * used to find out whos turn it is
      * @return either 1 or 0 depending on the game
      */
     public int getOpponentID() {
@@ -49,13 +53,12 @@ public class StudentPlayer extends HusPlayer {
      * else, return the move found by alpha beta search
      */
     public HusMove chooseMove(HusBoardState board_state) {
-
         ArrayList<HusMove> moves = board_state.getLegalMoves();
         final ExecutorService service = Executors.newSingleThreadExecutor();
         try {
             TimedTask tt = new TimedTask(board_state, this);
             final Future<Object> f = service.submit(tt.alphaBetaCalc);
-            return moves.get((Integer) f.get(1980, TimeUnit.MILLISECONDS));
+            return moves.get((Integer) f.get(TIME_LIMIT, TimeUnit.MILLISECONDS));
         } catch (final TimeoutException e) {
             int[] values = new int[moves.size()];
             for (HusMove move : moves) {
