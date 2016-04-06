@@ -45,26 +45,22 @@ public class StudentPlayer extends HusPlayer {
      * for another example agent.
      */
     public HusMove chooseMove(HusBoardState board_state) {
-        HusMove backupMove;
+
         ArrayList<HusMove> moves = board_state.getLegalMoves();
-        int[] values = new int[moves.size()];
-        for (HusMove move : moves) {
-            HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
-            cloned_board_state.move(move);
-            values[moves.indexOf(move)] = AlphaBeta.evaluateState(cloned_board_state, this);
-        }
-        backupMove = moves.get(AlphaBeta.findIndexOfMaxValue(values));
-
-
-
         final ExecutorService service = Executors.newSingleThreadExecutor();
-
         try {
             TimedTask tt = new TimedTask(board_state, this);
             final Future<Object> f = service.submit(tt.alphaBetaCalc);
             return moves.get((Integer)f.get(1990, TimeUnit.MILLISECONDS));
         } catch (final TimeoutException e) {
-            return backupMove;
+            int[] values = new int[moves.size()];
+            for (HusMove move : moves) {
+                HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
+                cloned_board_state.move(move);
+                values[moves.indexOf(move)] = AlphaBeta.evaluateState(cloned_board_state, this);
+            }
+            System.out.println("backup move given");
+            return moves.get(AlphaBeta.findIndexOfMaxValue(values));
         } catch (final Exception e) {
             throw new RuntimeException(e);
         } finally {
