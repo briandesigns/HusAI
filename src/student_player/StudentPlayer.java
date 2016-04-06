@@ -15,7 +15,8 @@ import student_player.mytools.AlphaBeta;
 import student_player.mytools.TimedTask;
 
 /**
- * A Hus player submitted by a student.
+ * Hus AI Agent using minimax with alpha-beta pruning and move ordering
+ * searches up to depth 5
  */
 public class StudentPlayer extends HusPlayer {
 
@@ -29,19 +30,23 @@ public class StudentPlayer extends HusPlayer {
         super("260381251");
     }
 
+    /**
+     * @return either 1 or 0 depending on the game
+     */
     public int getPlayerID() {
         return this.player_id;
     }
 
+    /**
+     * @return either 1 or 0 depending on the game
+     */
     public int getOpponentID() {
         return this.opponent_id;
     }
 
     /**
-     * This is the primary method that you need to implement.
-     * The ``board_state`` object contains the current state of the game,
-     * which your agent can use to make decisions. See the class hus.RandomHusPlayer
-     * for another example agent.
+     * fetches a backup Move using evaluation function on all legal moves if taking too long
+     * else, return the move found by alpha beta search
      */
     public HusMove chooseMove(HusBoardState board_state) {
 
@@ -50,7 +55,7 @@ public class StudentPlayer extends HusPlayer {
         try {
             TimedTask tt = new TimedTask(board_state, this);
             final Future<Object> f = service.submit(tt.alphaBetaCalc);
-            return moves.get((Integer)f.get(1980, TimeUnit.MILLISECONDS));
+            return moves.get((Integer) f.get(1980, TimeUnit.MILLISECONDS));
         } catch (final TimeoutException e) {
             int[] values = new int[moves.size()];
             for (HusMove move : moves) {
@@ -65,9 +70,5 @@ public class StudentPlayer extends HusPlayer {
         } finally {
             service.shutdown();
         }
-
-
-//        return moves.get(AlphaBeta.alphabetaDecision(board_state, this));
-
     }
 }

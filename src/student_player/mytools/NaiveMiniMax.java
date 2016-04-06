@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import hus.HusBoardState;
 import hus.HusMove;
 import hus.MiniMaxPlayer;
-import student_player.StudentPlayer;
+
 public class NaiveMiniMax {
     public static int minimaxDecision(HusBoardState board_state, MiniMaxPlayer myPlayer) {
         ArrayList<HusMove> moves = board_state.getLegalMoves();
@@ -13,7 +13,7 @@ public class NaiveMiniMax {
         for (HusMove move : moves) {
             HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
             cloned_board_state.move(move);
-            values[moves.indexOf(move)] = minimaxValue(3,cloned_board_state, myPlayer);
+            values[moves.indexOf(move)] = minimaxValue(3, cloned_board_state, myPlayer);
         }
         return findIndexOfMaxValue(values);
     }
@@ -37,22 +37,22 @@ public class NaiveMiniMax {
      * @return
      */
     private static int minimaxValue(int depth, HusBoardState board_state, MiniMaxPlayer myPlayer) {
-        if(board_state.gameOver() || depth == 0) {
+        if (board_state.gameOver() || depth == 0) {
             return evaluateState(board_state, myPlayer);
         }
 
         ArrayList<HusBoardState> successors = getSuccessors(board_state);
         if (board_state.getTurnPlayer() == myPlayer.getPlayerID()) {
             int backValue = Integer.MIN_VALUE;
-            for( HusBoardState successor : successors) {
-                int value = minimaxValue(depth-1,successor, myPlayer);
+            for (HusBoardState successor : successors) {
+                int value = minimaxValue(depth - 1, successor, myPlayer);
                 backValue = Math.max(value, backValue);
             }
             return backValue;
         } else {
             int backValue = Integer.MAX_VALUE;
-            for( HusBoardState successor : successors) {
-                int value = minimaxValue(depth-1,successor, myPlayer);
+            for (HusBoardState successor : successors) {
+                int value = minimaxValue(depth - 1, successor, myPlayer);
                 backValue = Math.min(value, backValue);
             }
             return backValue;
@@ -62,7 +62,7 @@ public class NaiveMiniMax {
     private static ArrayList<HusBoardState> getSuccessors(HusBoardState board_state) {
         ArrayList<HusBoardState> successors = new ArrayList<HusBoardState>();
         ArrayList<HusMove> moves = board_state.getLegalMoves();
-        for(HusMove move : moves) {
+        for (HusMove move : moves) {
             HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
             cloned_board_state.move(move);
             successors.add(cloned_board_state);
@@ -83,12 +83,12 @@ public class NaiveMiniMax {
         int value = 0;
         for (int i = 0; i < my_pits.length; i++) {
             if (my_pits[i] > 1) {
-                value += my_pits[i]*2;
+                value += my_pits[i] * 2;
             }
         }
         for (int i = 0; i < op_pits.length; i++) {
             if (op_pits[i] > 1) {
-                value -= op_pits[i]*2;
+                value -= op_pits[i] * 2;
             }
         }
         return value;
