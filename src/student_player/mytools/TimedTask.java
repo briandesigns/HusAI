@@ -22,11 +22,12 @@ public class TimedTask {
      * @param myPlayer
      */
     public TimedTask(final HusBoardState board_state, final StudentPlayer myPlayer, final
-                     MiniMaxPlayer miPlayer) {
+    MiniMaxPlayer miPlayer, final AlphaBeta ab) {
         this.alphaBetaCalc = new Callable<Object>() {
             @Override
             public Object call() throws Exception {
-                return AlphaBeta.alphabetaDecision(board_state, myPlayer);
+                ab.alphabetaDecision(board_state, myPlayer);
+                return null;
             }
 
         };

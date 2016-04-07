@@ -53,27 +53,47 @@ public class StudentPlayer extends HusPlayer {
      * else, return the move found by alpha beta search
      */
     public HusMove chooseMove(HusBoardState board_state) {
-//        return board_state.getLegalMoves().get(AlphaBeta.alphabetaDecision(board_state, this));
-//
         ArrayList<HusMove> moves = board_state.getLegalMoves();
         final ExecutorService service = Executors.newSingleThreadExecutor();
+        AlphaBeta ab = new AlphaBeta();
         try {
-            TimedTask tt = new TimedTask(board_state, this, null);
+            TimedTask tt = new TimedTask(board_state, this, null, ab);
             final Future<Object> f = service.submit(tt.alphaBetaCalc);
-            return moves.get((Integer) f.get(TIME_LIMIT, TimeUnit.MILLISECONDS));
+//            return moves.get((Integer) f.get(TIME_LIMIT, TimeUnit.MILLISECONDS));
+            f.get(TIME_LIMIT, TimeUnit.MILLISECONDS);
+            return null;
         } catch (final TimeoutException e) {
-            int[] values = new int[moves.size()];
-            for (HusMove move : moves) {
-                HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
-                cloned_board_state.move(move);
-                values[moves.indexOf(move)] = AlphaBeta.evaluateState(cloned_board_state, this);
-            }
-            System.out.println("backup move given");
-            return moves.get(AlphaBeta.findIndexOfMaxValue(values));
+//            int[] values = new int[moves.size()];
+//            for (HusMove move : moves) {
+//                HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
+//                cloned_board_state.move(move);
+//                values[moves.indexOf(move)] = AlphaBeta.evaluateState(cloned_board_state, this);
+//            }
+//            System.out.println("backup move given");
+//            return moves.get(AlphaBeta.findIndexOfMaxValue(values));
+            int res = ab.result;
+            ab.stop = true;
+            return moves.get(res);
+
         } catch (final Exception e) {
             throw new RuntimeException(e);
         } finally {
-            service.shutdown();
+            service.shutdownNow();
         }
+
+
+
+//        final HusBoardState clone_board_state = (HusBoardState) board_state.clone();
+//        final StudentPlayer player = this;
+//        Thread t = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                AlphaBeta.alphabetaDecision((HusBoardState) clone_board_state.clone(), player);
+//            }
+//        });
+//        t.start();
+
+
+//        return moves.get(AlphaBeta.result);
     }
 }

@@ -8,7 +8,7 @@ import hus.MiniMaxPlayer;
 
 public class NaiveMiniMax {
 
-    public static final int DEPTH = 2;
+    public static final int DEPTH = 4;
     public static int minimaxDecision(HusBoardState board_state, MiniMaxPlayer myPlayer) {
         ArrayList<HusMove> moves = board_state.getLegalMoves();
         int[] values = new int[moves.size()];
