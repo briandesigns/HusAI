@@ -20,7 +20,7 @@ import student_player.mytools.TimedTask;
  */
 public class StudentPlayer extends HusPlayer {
 
-    public static final int TIME_LIMIT = 1989;
+    public static final int TIME_LIMIT = 1985;
 
     /**
      * You must modify this constructor to return your student number.
@@ -55,13 +55,16 @@ public class StudentPlayer extends HusPlayer {
         ArrayList<HusMove> moves = board_state.getLegalMoves();
         final ExecutorService service = Executors.newSingleThreadExecutor();
         AlphaBeta ab = new AlphaBeta(40);
+        int res;
         try {
             TimedTask tt = new TimedTask(board_state, this, ab);
             final Future<Object> f = service.submit(tt.alphaBetaCalc);
             f.get(TIME_LIMIT, TimeUnit.MILLISECONDS);
-            return null;
+            res = ab.getResult();
+            ab.stopSearch();
+            return moves.get(res);
         } catch (final TimeoutException e) {
-            int res = ab.getResult();
+            res = ab.getResult();
             ab.stopSearch();
             return moves.get(res);
         } catch (final Exception e) {
