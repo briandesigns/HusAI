@@ -53,10 +53,12 @@ public class StudentPlayer extends HusPlayer {
      * else, return the move found by alpha beta search
      */
     public HusMove chooseMove(HusBoardState board_state) {
+//        return board_state.getLegalMoves().get(AlphaBeta.alphabetaDecision(board_state, this));
+//
         ArrayList<HusMove> moves = board_state.getLegalMoves();
         final ExecutorService service = Executors.newSingleThreadExecutor();
         try {
-            TimedTask tt = new TimedTask(board_state, this);
+            TimedTask tt = new TimedTask(board_state, this, null);
             final Future<Object> f = service.submit(tt.alphaBetaCalc);
             return moves.get((Integer) f.get(TIME_LIMIT, TimeUnit.MILLISECONDS));
         } catch (final TimeoutException e) {

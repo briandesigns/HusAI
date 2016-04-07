@@ -3,6 +3,7 @@ package student_player.mytools;
 import java.util.concurrent.Callable;
 
 import hus.HusBoardState;
+import hus.MiniMaxPlayer;
 import student_player.StudentPlayer;
 
 /**
@@ -13,17 +14,26 @@ import student_player.StudentPlayer;
 public class TimedTask {
 
     public Callable<Object> alphaBetaCalc;
+    public Callable<Object> minimaxCalc;
 
     /**
      * a callable that will run the alpha beta routine
      * @param board_state
      * @param myPlayer
      */
-    public TimedTask(final HusBoardState board_state, final StudentPlayer myPlayer) {
+    public TimedTask(final HusBoardState board_state, final StudentPlayer myPlayer, final
+                     MiniMaxPlayer miPlayer) {
         this.alphaBetaCalc = new Callable<Object>() {
             @Override
             public Object call() throws Exception {
                 return AlphaBeta.alphabetaDecision(board_state, myPlayer);
+            }
+
+        };
+        this.minimaxCalc = new Callable<Object>() {
+            @Override
+            public Object call() throws Exception {
+                return NaiveMiniMax.minimaxDecision(board_state, miPlayer);
             }
 
         };

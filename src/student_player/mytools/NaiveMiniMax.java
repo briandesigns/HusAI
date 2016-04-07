@@ -7,18 +7,20 @@ import hus.HusMove;
 import hus.MiniMaxPlayer;
 
 public class NaiveMiniMax {
+
+    public static final int DEPTH = 2;
     public static int minimaxDecision(HusBoardState board_state, MiniMaxPlayer myPlayer) {
         ArrayList<HusMove> moves = board_state.getLegalMoves();
         int[] values = new int[moves.size()];
         for (HusMove move : moves) {
             HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
             cloned_board_state.move(move);
-            values[moves.indexOf(move)] = minimaxValue(3, cloned_board_state, myPlayer);
+            values[moves.indexOf(move)] = minimaxValue(DEPTH, cloned_board_state, myPlayer);
         }
         return findIndexOfMaxValue(values);
     }
 
-    private static int findIndexOfMaxValue(int[] values) {
+    public static int findIndexOfMaxValue(int[] values) {
         int maxIndex = 0;
         for (int i = 0; i < values.length; i++) {
             if (values[i] > values[maxIndex]) {

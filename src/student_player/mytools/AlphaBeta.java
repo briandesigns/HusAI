@@ -12,7 +12,7 @@ import student_player.StudentPlayer;
  */
 public class AlphaBeta {
 
-    public static final int DEPTH = 5;
+    public static final int DEPTH = 4;
 
     /**
      * based on pseudocode in the class slides
