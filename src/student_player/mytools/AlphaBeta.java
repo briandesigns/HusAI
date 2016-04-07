@@ -13,8 +13,22 @@ import student_player.StudentPlayer;
 public class AlphaBeta {
 
     public final int DEPTH = 20;
-    public int result;
-    public boolean stop = false;
+    private int result = -1;
+    private boolean stop = false;
+    private int depth = 0;
+
+
+    public void stopSearch() {
+        this.stop = true;
+    }
+
+    public int getResult() {
+        return this.result;
+    }
+
+    public int getDepth() {
+        return this.depth;
+    }
 
     /**
      * based on pseudocode in the class slides
@@ -23,7 +37,6 @@ public class AlphaBeta {
      * @return index of the recommended move by the algorithm
      */
     public void alphabetaDecision(HusBoardState board_state, StudentPlayer myPlayer) {
-        this.result = -1;
         ArrayList<HusMove> moves = board_state.getLegalMoves();
         System.out.println("branching factor:" + moves.size());
         int[] values = new int[moves.size()];
@@ -45,8 +58,9 @@ public class AlphaBeta {
                 break;
             }
             this.result = findIndexOfMaxValue(values);
-            System.out.println("depth reached: " + maxDepth);
+            this.depth = maxDepth;
         }
+        System.out.println("depth reached: " + this.getDepth());
     }
 
     /**
@@ -82,7 +96,6 @@ public class AlphaBeta {
             try {
                 throw new Exception("");
             } catch (Exception e) {
-                System.out.println("stopped thread");
                 return null;
             }
         } else {

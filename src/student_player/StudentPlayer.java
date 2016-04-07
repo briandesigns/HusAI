@@ -20,7 +20,8 @@ import student_player.mytools.TimedTask;
  */
 public class StudentPlayer extends HusPlayer {
 
-    public static final int TIME_LIMIT = 1980;
+    public static final int TIME_LIMIT = 1990;
+    public static final int TIME_LIMIT_FIRST = 29900;
 
     /**
      * You must modify this constructor to return your student number.
@@ -59,41 +60,23 @@ public class StudentPlayer extends HusPlayer {
         try {
             TimedTask tt = new TimedTask(board_state, this, null, ab);
             final Future<Object> f = service.submit(tt.alphaBetaCalc);
-//            return moves.get((Integer) f.get(TIME_LIMIT, TimeUnit.MILLISECONDS));
+//            if (board_state.getTurnNumber()==0) {
+//                f.get(TIME_LIMIT_FIRST, TimeUnit.MILLISECONDS);
+//            } else {
+//                f.get(TIME_LIMIT, TimeUnit.MILLISECONDS);
+//            }
+
             f.get(TIME_LIMIT, TimeUnit.MILLISECONDS);
+
             return null;
         } catch (final TimeoutException e) {
-//            int[] values = new int[moves.size()];
-//            for (HusMove move : moves) {
-//                HusBoardState cloned_board_state = (HusBoardState) board_state.clone();
-//                cloned_board_state.move(move);
-//                values[moves.indexOf(move)] = AlphaBeta.evaluateState(cloned_board_state, this);
-//            }
-//            System.out.println("backup move given");
-//            return moves.get(AlphaBeta.findIndexOfMaxValue(values));
-            int res = ab.result;
-            ab.stop = true;
+            int res = ab.getResult();
+            ab.stopSearch();
             return moves.get(res);
-
         } catch (final Exception e) {
             throw new RuntimeException(e);
         } finally {
             service.shutdownNow();
         }
-
-
-
-//        final HusBoardState clone_board_state = (HusBoardState) board_state.clone();
-//        final StudentPlayer player = this;
-//        Thread t = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                AlphaBeta.alphabetaDecision((HusBoardState) clone_board_state.clone(), player);
-//            }
-//        });
-//        t.start();
-
-
-//        return moves.get(AlphaBeta.result);
     }
 }
