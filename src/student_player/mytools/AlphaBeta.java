@@ -12,11 +12,13 @@ import student_player.StudentPlayer;
  */
 public class AlphaBeta {
 
-    public final int DEPTH = 20;
+    public int DEPTH;
     private int result = -1;
     private boolean stop = false;
-    private int depth = 0;
 
+    public AlphaBeta(int depth) {
+        this.DEPTH = depth;
+    }
 
     public void stopSearch() {
         this.stop = true;
@@ -26,19 +28,18 @@ public class AlphaBeta {
         return this.result;
     }
 
-    public int getDepth() {
-        return this.depth;
-    }
 
     /**
      * based on pseudocode in the class slides
+     * Iterative deepening approach based on this wiki page
+     * http://will.thimbleby.net/algorithms/doku.php?id=iterative_deepening_depth-first_search
      * @param board_state
      * @param myPlayer
      * @return index of the recommended move by the algorithm
      */
     public void alphabetaDecision(HusBoardState board_state, StudentPlayer myPlayer) {
         ArrayList<HusMove> moves = board_state.getLegalMoves();
-        System.out.println("branching factor:" + moves.size());
+        System.out.println(myPlayer.getName() +"-branching factor:" + moves.size());
         int[] values = new int[moves.size()];
         for (int maxDepth = 1; maxDepth < DEPTH; maxDepth++) {
             for (HusMove move : moves) {
@@ -58,9 +59,7 @@ public class AlphaBeta {
                 break;
             }
             this.result = findIndexOfMaxValue(values);
-            this.depth = maxDepth;
         }
-        System.out.println("depth reached: " + this.getDepth());
     }
 
     /**

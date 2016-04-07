@@ -4,6 +4,11 @@ import java.util.Comparator;
 
 import hus.HusBoardState;
 import student_player.StudentPlayer;
+
+/**
+ * Comparator for Husboard state based on my Evaluation function
+ * used for ranking successors for move ordering
+ */
 public class HusBoardStateComparator implements Comparator<HusBoardState> {
 
     private StudentPlayer myPlayer;

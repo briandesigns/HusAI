@@ -50,24 +50,16 @@ public class StudentPlayer extends HusPlayer {
     }
 
     /**
-     * fetches a backup Move using evaluation function on all legal moves if taking too long
-     * else, return the move found by alpha beta search
+     * keep computing optimal move using iterative deepening until time runs out
      */
     public HusMove chooseMove(HusBoardState board_state) {
         ArrayList<HusMove> moves = board_state.getLegalMoves();
         final ExecutorService service = Executors.newSingleThreadExecutor();
-        AlphaBeta ab = new AlphaBeta();
+        AlphaBeta ab = new AlphaBeta(40);
         try {
-            TimedTask tt = new TimedTask(board_state, this, null, ab);
+            TimedTask tt = new TimedTask(board_state, this, ab);
             final Future<Object> f = service.submit(tt.alphaBetaCalc);
-//            if (board_state.getTurnNumber()==0) {
-//                f.get(TIME_LIMIT_FIRST, TimeUnit.MILLISECONDS);
-//            } else {
-//                f.get(TIME_LIMIT, TimeUnit.MILLISECONDS);
-//            }
-
             f.get(TIME_LIMIT, TimeUnit.MILLISECONDS);
-
             return null;
         } catch (final TimeoutException e) {
             int res = ab.getResult();
