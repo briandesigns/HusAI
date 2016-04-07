@@ -49,7 +49,7 @@ public class Autoplay
 
             ProcessBuilder client2_pb = new ProcessBuilder(
                 "java", "-cp", "bin", "-Xms520m", "-Xmx520m", "boardgame.Client", "hus" +
-                    ".RandomPlayer");
+                    ".RandomHusPlayer");
             client2_pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
 
             for (int i=0; i < n_games; i++) {

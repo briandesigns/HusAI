@@ -20,8 +20,7 @@ import student_player.mytools.TimedTask;
  */
 public class StudentPlayer extends HusPlayer {
 
-    public static final int TIME_LIMIT = 1990;
-    public static final int TIME_LIMIT_FIRST = 29900;
+    public static final int TIME_LIMIT = 1989;
 
     /**
      * You must modify this constructor to return your student number.
@@ -68,7 +67,7 @@ public class StudentPlayer extends HusPlayer {
         } catch (final Exception e) {
             throw new RuntimeException(e);
         } finally {
-            service.shutdownNow();
+            service.shutdown();
         }
     }
 }

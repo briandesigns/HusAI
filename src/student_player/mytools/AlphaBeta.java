@@ -39,7 +39,7 @@ public class AlphaBeta {
      */
     public void alphabetaDecision(HusBoardState board_state, StudentPlayer myPlayer) {
         ArrayList<HusMove> moves = board_state.getLegalMoves();
-        System.out.println(myPlayer.getName() +"-branching factor:" + moves.size());
+//        System.out.println(myPlayer.getName() +"-branching factor:" + moves.size());
         int[] values = new int[moves.size()];
         for (int maxDepth = 1; maxDepth < DEPTH; maxDepth++) {
             for (HusMove move : moves) {
@@ -55,6 +55,7 @@ public class AlphaBeta {
                     break;
                 }
             }
+//            System.out.println("depth reached: " + maxDepth);
             if (stop) {
                 break;
             }
